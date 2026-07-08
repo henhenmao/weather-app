@@ -1,4 +1,5 @@
 import { defineConfig } from "eslint/config";
+import eslintConfigPrettier from "eslint-config-prettier/flat";
 
 export default defineConfig([
   { ignores: ["dist/**"] },
@@ -15,4 +16,5 @@ export default defineConfig([
       },
     },
   },
+  eslintConfigPrettier,
 ]);

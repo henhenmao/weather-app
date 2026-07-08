@@ -3,81 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>To-Do List</title>
-    <style>
-      .new-div {
-        opacity: 0;
-        visibility: hidden;
-      }
-    </style>
+    <title>weather-api-test</title>
   </head>
   <body>
-    <div id="new-task-div" class="new-div">
-      <div class="new-task-header">
-        <div>new task</div>
-        <button id="close-new-task" class="close-new close-button">X</button>
-      </div>
-      <form class="new-task-details">
-        <input
-          type="text"
-          id="new-title"
-          name="title"
-          placeholder="Your Task..."
-          required
-        />
-        <input
-          type="text"
-          id="new-description"
-          name="description"
-          placeholder="details..."
-        />
-        <div class="date-time">
-          <input type="date" id="new-date" name="date" />
-          <input type="time" id="new-time" name="time" />
-        </div>
-        <select id="new-project-select" name="project"></select>
-        <button type="submit" id="submit-new-task" class="submit-new">
-          add task
-        </button>
+    <div id="main">
+      <div class="header">api testing</div>
+      <form action="" id="search-form">
+        <label for="location-input"></label>
+        <input type="text" id="location-input" name="location-input" placeholder="look for a city..." required />
+        <button id="search-btn" type="submit">Search</button>
       </form>
-    </div>
-
-    <div id="new-project-div" class="new-div">
-      <div class="new-project-header">
-        <div>new project</div>
-        <button id="close-new-project" class="close-new close-button">X</button>
-      </div>
-      <form class="new-project-details">
-        <input
-          type="text"
-          id="new-project-title"
-          name="title"
-          placeholder="Your Project..."
-          required
-        />
-        <button type="submit" id="submit-new-project" class="submit-new">
-          add Project
-        </button>
-      </form>
-    </div>
-
-    <div id="page" class="page">
-      <div id="sidebar" class="sidebar">
-        <div class="logo">
-          <div class="logo-text">Tasks</div>
-        </div>
-        <div class="add-div">
-          <!-- <button id="new-task-button" class="add-btn">New Task</button> -->
-          <button id="new-project-button" class="add-btn">New Project</button>
-        </div>
-
-        <div class="sidebar-projects">
-          <div class="sidebar-projects-heading">Projects</div>
-          <div id="projects-list"></div>
-        </div>
-      </div>
-      <div id="main" class="main">
-        <!-- projects go here -->
+      <div id="weather-page">
       </div>
     </div>
   </body>
