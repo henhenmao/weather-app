@@ -6,6 +6,11 @@ const tempQuantities = {
   feelslike: "Feels Like",
 };
 
+const speedQuantities = {
+  windspeed: "Wind Speed",
+  windgust: "Wind Gust",
+};
+
 const otherQuantities = {
   humidity: "Humidity",
 };
@@ -14,13 +19,41 @@ const other = ["icon"];
 
 let lastWeatherData = null;
 
-const temperatureToggle = document.createElement("button");
-temperatureToggle.textContent = "C";
-temperatureToggle.addEventListener("click", () => {
-  toggleTemperature();
+const unitToggle = document.createElement("button");
+unitToggle.classList.add("unit-toggle-btn");
+unitToggle.textContent = "°C";
+unitToggle.addEventListener("click", () => {
+  toggleUnits();
 });
 
 async function renderWeather(weatherData) {
+  // function creates subDivs that contain the quantity name and quantity value
+  function createSubDivs(quantities) {
+    Object.entries(quantities).forEach(([condition, name]) => {
+      const newDiv = document.createElement("div");
+      const headerSubDiv = document.createElement("div");
+      const infoDiv = document.createElement("div");
+
+      newDiv.classList.add("weather-sub-div");
+      headerSubDiv.classList.add("sub-div-header");
+      infoDiv.classList.add("info-div");
+
+      const value = conditions[condition];
+      headerSubDiv.textContent = `${name}:`;
+      infoDiv.textContent = `${typeof value === "number" ? value.toFixed(1) : value}`;
+
+      // special case where temperature is listed on the header
+      if (condition === "temp") {
+        infoDiv.classList.add("header-temp");
+        headerDiv.append(infoDiv);
+        return;
+      }
+
+      newDiv.append(headerSubDiv, infoDiv);
+      weatherDiv.append(newDiv);
+    });
+  }
+
   lastWeatherData = weatherData;
   const conditions = weatherData.currentConditions;
   const location = weatherData.address;
@@ -35,59 +68,37 @@ async function renderWeather(weatherData) {
   const headerDiv = document.createElement("div");
   headerDiv.classList.add("weather-header");
 
-  const titleDiv = document.createElement("div");
-  titleDiv.classList.add("weather-title");
-  titleDiv.textContent = `${location}`;
+  // adding images (icons, etc) -> goes to the left of the header
+  const iconDiv = document.createElement("div");
+  iconDiv.classList.add("weather-icon-div");
 
-  headerDiv.append(titleDiv, temperatureToggle);
-
-  // adding quantities with F/C units (temperature, feelslike, etc.)
-  Object.entries(tempQuantities).forEach(([condition, name]) => {
-    const newDiv = document.createElement("div");
-    const headerDiv = document.createElement("div");
-    const infoDiv = document.createElement("div");
-
-    newDiv.classList.add("weather-sub-div");
-    headerDiv.classList.add("header-div");
-    infoDiv.classList.add("info-div");
-
-    const value = conditions[condition];
-    headerDiv.textContent = name;
-    infoDiv.textContent = typeof value === "number" ? value.toFixed(1) : value;
-    newDiv.append(headerDiv, infoDiv);
-    weatherDiv.append(newDiv);
-  });
-
-  // other quantities with other units (humidity, etc.)
-  Object.entries(otherQuantities).forEach(([condition, name]) => {
-    const newDiv = document.createElement("div");
-    const headerDiv = document.createElement("div");
-    const infoDiv = document.createElement("div");
-
-    newDiv.classList.add("weather-sub-div");
-    headerDiv.classList.add("header-div");
-    infoDiv.classList.add("info-div");
-
-    const value = conditions[condition];
-    headerDiv.textContent = name;
-    infoDiv.textContent = typeof value === "number" ? value.toFixed(1) : value;
-    newDiv.append(headerDiv, infoDiv);
-    weatherDiv.append(newDiv);
-  });
-
-  // adding images (icons, etc)
   for (const condition of other) {
-    const newDiv = document.createElement("div");
-    newDiv.classList.add("weather-icon-div");
-
     const img = document.createElement("img");
     img.classList.add("weather-icon");
     img.src = await getIconSrc(conditions[condition]);
 
-    newDiv.append(img);
-    weatherDiv.append(newDiv);
+    iconDiv.append(img);
   }
 
+  const headerContent = document.createElement("div");
+  headerContent.classList.add("header-content");
+
+  const titleDiv = document.createElement("div");
+  titleDiv.classList.add("weather-title");
+  titleDiv.textContent = `${location}`;
+
+  headerDiv.append(iconDiv, titleDiv);
+
+  // adding quantities with F/C units (temperature, feelslike, etc.)
+  createSubDivs(tempQuantities);
+
+  // other quantities with other units (humidity, etc.)
+  createSubDivs(otherQuantities);
+
+  // adding speed quantities kph/mph (wind, etc.)
+  createSubDivs(speedQuantities);
+
+  headerDiv.append(unitToggle);
   weatherPage.append(headerDiv);
   weatherPage.append(weatherDiv);
 }
@@ -108,22 +119,35 @@ function fahrenheitToCelsius(fahrenheit) {
   return ((fahrenheit - 32) * 5) / 9;
 }
 
+function kmhToMph(kmh) {
+  return kmh / 1.609344;
+}
+
+function mphToKmh(mph) {
+  return mph * 1.609344;
+}
+
 // switch between F and C units
-async function toggleTemperature() {
+async function toggleUnits() {
   if (!lastWeatherData) return;
 
-  const switchingToFahrenheit = temperatureToggle.textContent === "C";
-  const convert = switchingToFahrenheit
+  const switchingToFahrenheit = unitToggle.textContent === "°C";
+  const convertTemp = switchingToFahrenheit
     ? celsiusToFahrenheit
     : fahrenheitToCelsius;
 
+  const convertSpeed = switchingToFahrenheit ? kmhToMph : mphToKmh;
+
   const conditions = lastWeatherData.currentConditions;
   Object.entries(tempQuantities).forEach(([condition, name]) => {
-    conditions[condition] = convert(conditions[condition]);
-    console.log(`${condition}: ${conditions[condition]}`);
+    conditions[condition] = convertTemp(conditions[condition]);
   });
 
-  temperatureToggle.textContent = switchingToFahrenheit ? "F" : "C";
+  Object.entries(speedQuantities).forEach(([condition, name]) => {
+    conditions[condition] = convertSpeed(conditions[condition]);
+  });
+
+  unitToggle.textContent = switchingToFahrenheit ? "°F" : "°C";
 
   await renderWeather(lastWeatherData);
 }

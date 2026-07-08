@@ -7,10 +7,10 @@ export default async function (apiKey, location, unitGroup) {
       throw new Error(`request failed: ${response.status}`);
     }
     const weatherData = await response.json();
-    console.log(weatherData);
+    // console.log(weatherData);
 
     return weatherData;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 }

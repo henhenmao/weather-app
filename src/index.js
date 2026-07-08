@@ -25,10 +25,11 @@ searchForm.addEventListener("submit", async (e) => {
 });
 
 // initial input into the form so i don't have to re enter it every refresh
-const location = "vancouver";
 
-(async () => {
-  const conditions = await getData(apiKey, location, unitGroup);
-  await renderWeather(conditions);
-  showWeather();
-})();
+// const location = "vancouver";
+
+// (async () => {
+//   const conditions = await getData(apiKey, location, unitGroup);
+//   await renderWeather(conditions);
+//   showWeather();
+// })();
