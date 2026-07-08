@@ -1,0 +1,42 @@
+{
+  "devDependencies": {
+    "css-loader": "^7.1.4",
+    "eslint": "^10.6.0",
+    "html-webpack-plugin": "^5.6.7",
+    "prettier": "3.9.4",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.108.4",
+    "webpack-cli": "^7.2.0",
+    "webpack-dev-server": "^5.2.6"
+  },
+  "name": "todo-list",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint .",
+    "build": "webpack",
+    "dev": "webpack serve",
+    "deploy": "git subtree push --prefix dist origin gh-pages"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/henhenmao/todo-list.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/henhenmao/todo-list/issues"
+  },
+  "homepage": "https://github.com/henhenmao/todo-list#readme",
+  "dependencies": {
+    "date-fns": "^4.4.0"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
