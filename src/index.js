@@ -1,18 +1,15 @@
-
 import "./styles.css";
 import getData from "./weather.js";
 import { renderWeather, showWeather, hideWeather } from "./weatherPage.js";
 
-
 const apiKey = "C8TDLXEQ7VVN385TZ3TACNCM7"; // i don't care that this is hardcoded
-const unitGroup = 'metric';
+const unitGroup = "metric";
 
-const weatherPage = document.getElementById('weather-page');
+const weatherPage = document.getElementById("weather-page");
 
-const searchForm = document.getElementById("search-form")
+const searchForm = document.getElementById("search-form");
 const locationInput = document.getElementById("location-input");
 const searchButton = document.getElementById("search-btn");
-
 
 searchForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -23,12 +20,12 @@ searchForm.addEventListener("submit", async (e) => {
     await renderWeather(weatherData);
     showWeather();
   } catch (error) {
-    console.log(`failed to get data! error: ${error}`)
+    console.log(`failed to get data! error: ${error}`);
   }
 });
 
 // initial input into the form so i don't have to re enter it every refresh
-const location = 'vancouver';
+const location = "vancouver";
 
 (async () => {
   const conditions = await getData(apiKey, location, unitGroup);

@@ -8,9 +8,9 @@ export default async function (apiKey, location, unitGroup) {
     }
     const weatherData = await response.json();
     console.log(weatherData);
-    
+
     return weatherData;
   } catch (error) {
     console.log(error);
   }
-};
+}
