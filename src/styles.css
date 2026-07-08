@@ -24,14 +24,19 @@ body {
   width: 40%;
   padding: 1rem;
 
-  display: flex;
-  flex-direction: column;
+  display: none;
+
   gap: 1rem;
 
   padding: 5em;
   box-sizing: border-box;
   border-radius: 20px;
   border: 0.2em solid #ccc;
+}
+
+#weather-page.visible {
+  display: flex;
+  flex-direction: column;
 }
 
 .weather-header {
